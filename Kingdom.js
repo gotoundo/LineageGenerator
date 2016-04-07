@@ -550,12 +550,11 @@ class NobleHouse {
     }
 
     DisplayStats() {
-
-        var regentText = "";
-        if (this.regent != null)
-            regentText += ". The young ruler is guided by Regent " + this.regent.FullTitle();
-
-        return (this.FullName() + ", Might " + Math.round(this.Might()) + ", is lead by " + this.leader.FullTitle() + ", whose children are " + this.leader.ListChildren() + regentText);
+        return (this.FullName() + 
+        (inlinePower ? (", Might " + Math.round(this.Might())) : "" )  + 
+        ", is lead by " + this.leader.FullTitle() +
+        ", whose children are " + this.leader.ListChildren() + 
+        (this.regent ? (". The young ruler is guided by Regent " + this.regent.FullTitle()) : "" ));
     }
 
 
@@ -701,7 +700,7 @@ class Noble {
 
 
         if (showStats)
-            output += " (Age " + this.age + ", Power " + Math.round(this.prestige) + ")";
+            output += " (Age " + this.age + (inlinePower ? (", Power " + Math.round(this.prestige)) : "") + ")";
 
         if (showHouse)
             output += " of " + this.nobleHouse.FullName();
@@ -771,6 +770,7 @@ var inlineMonuments = true;
 var inlineWars = true;
 var inlineDeaths = true;
 var inlineAscensions = true;
+var inlinePower = true;
 var KingdomOverviewPeriod = 50; //every x years show the state of the kingdom
 
 function GenerateKingdom() {
@@ -784,6 +784,7 @@ function GenerateKingdom() {
     inlineWars = document.getElementById("inlineWars").checked;
     inlineDeaths = document.getElementById("inlineDeaths").checked;
     inlineAscensions = document.getElementById("inlineAscensions").checked;
+    inlinePower = document.getElementById("inlinePower").checked;
     KingdomOverviewPeriod = parseInt(document.getElementById("nobleReviewPeriod").value, 10);
 
     kingdom = new Kingdom();
